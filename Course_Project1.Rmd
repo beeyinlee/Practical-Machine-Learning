@@ -27,6 +27,7 @@ The data for this project come from this source: http://groupware.les.inf.puc-ri
 The goal of the project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
 
 ##**Loading Libraries and Data**
+- removed the 7 unused columns
 
 ```{r,echo = TRUE,warning=FALSE,error=FALSE,message=FALSE}
 library(caret)
@@ -40,28 +41,13 @@ library(corrplot)
 set.seed(111)
 
 training<-read.csv("pml-training.csv", na.strings = c("NA", ""))
+testing<-read.csv("pml-testing.csv")
+
+training <- training[--(1:7)]
 inTrain<-createDataPartition(training$classe, p=3/4, list=FALSE)
 myTraining<-training[inTrain,]
 myTesting<-training[-inTrain,]
 #dim(myTraining)
-testing<-read.csv("pml-testing.csv")
-
-```
-
-##**Data Cleansing**
-
-- removed the 7 unused columns
-- removed NAs
-
-```{r,echo = TRUE,warning=FALSE,error=FALSE,message=FALSE}
-training <- training[--(1:7)]
-
-## Removing cols only containing NA or ""
-#thres <- nrow(clean.data) * 0.95  ## Setting threshoold as more than95% of NAs or ""
-#nNaColumns <- !apply(clean.data, 2, function(x) sum(is.na(x)) > thres  || sum(x=="") > thres)
-#clean.data <- clean.data[, nNaColumns]
-
-#rm(raw.data)  # delete raw.data
 
 ```
 
@@ -84,13 +70,4 @@ confusionMatrix(predictions2, myTesting$classe)
 ```
 
 ##**Result**
-
-Random Forests gives us an Accuracy of 99.3% which is more than the accuracy we got from Decision Trees. The expected out-of-sample error is 100-99.3 = 0.7%. Therefore, Random Forests are chosen to predict classes for the test samples.
-
-> predictionX <- predict(modelFitted_your_selected, newdata=testing ...)
-> predictionX
-
-\pagebreak
-##**Appendix**
-
-R Codes
+Unable to generate as computer crash
